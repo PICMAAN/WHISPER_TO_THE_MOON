@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
 
     float move;
 
+    bool grounded = true;
+
     void Awake()
     {
         actions = new InputSystem_Actions();
@@ -23,6 +25,7 @@ public class PlayerController : MonoBehaviour
         actions.Player.Enable();
         actions.Player.Move.performed += Movement;
         actions.Player.Jump.performed += Jumping;
+        actions.Player.Move.performed += Attack;
 
         actions.Player.Move.canceled += Movement;
         actions.Player.Jump.canceled += Jumping;
@@ -45,10 +48,19 @@ public class PlayerController : MonoBehaviour
 
     void Jumping(InputAction.CallbackContext ctx)
     {
-        rb.linearVelocityY = jumpforce;
+        if (grounded)
+        {
+            rb.linearVelocityY = jumpforce;
+            grounded = false;
+        }
+    
     }
 
-    void Start()
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            grounded = true;
+        }
+        void Start()
     {
         rb = GetComponent<Rigidbody2D>();
     }
