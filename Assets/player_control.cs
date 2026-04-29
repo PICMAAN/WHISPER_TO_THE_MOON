@@ -11,9 +11,13 @@ public class PlayerController : MonoBehaviour
 
     public float jumpforce;
 
+    Animator animator;
+
     float move;
 
     bool grounded = true;
+
+    bool is_attack = false;
 
     void Awake()
     {
@@ -25,10 +29,11 @@ public class PlayerController : MonoBehaviour
         actions.Player.Enable();
         actions.Player.Move.performed += Movement;
         actions.Player.Jump.performed += Jumping;
-        //actions.Player.Move.performed += Attack;
+        actions.Player.Attack.performed += Attack;
 
         actions.Player.Move.canceled += Movement;
         actions.Player.Jump.canceled += Jumping;
+        actions.Player.Attack.canceled += Attack;
     }
 
     void OnDisable()
@@ -36,11 +41,18 @@ public class PlayerController : MonoBehaviour
         actions.Player.Disable();
         actions.Player.Move.performed -= Movement;
         actions.Player.Jump.performed -= Jumping;
+        actions.Player.Attack.performed -= Attack;
 
         actions.Player.Move.canceled -= Movement;
         actions.Player.Jump.canceled -= Jumping;
+        actions.Player.Attack.canceled -= Attack;
     }
 
+    void Attack(InputAction.CallbackContext ctx)
+    {
+        is_attack = true;
+        animator.SetBool("isAttack", is_attack);
+    }
     void Movement(InputAction.CallbackContext ctx)
     {
         move = ctx.ReadValue<Vector2>().x;
