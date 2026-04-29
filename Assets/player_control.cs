@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
         actions.Player.Enable();
         actions.Player.Move.performed += Movement;
         actions.Player.Jump.performed += Jumping;
-        actions.Player.Move.performed += Attack;
+        //actions.Player.Move.performed += Attack;
 
         actions.Player.Move.canceled += Movement;
         actions.Player.Jump.canceled += Jumping;
