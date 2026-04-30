@@ -50,8 +50,14 @@ public class PlayerController : MonoBehaviour
 
     void Attack(InputAction.CallbackContext ctx)
     {
-        is_attack = true;
-        animator.SetBool("isAttack", is_attack);
+        if (ctx.performed)
+        {
+            animator.SetBool("isAttack", true);
+        }
+        if (ctx.canceled)
+        {
+            animator.SetBool("isAttack", false);
+        }
     }
     void Movement(InputAction.CallbackContext ctx)
     {
@@ -72,9 +78,10 @@ public class PlayerController : MonoBehaviour
         {
             grounded = true;
         }
-        void Start()
+    void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     void Update()
